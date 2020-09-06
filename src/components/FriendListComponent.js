@@ -1,9 +1,10 @@
-import React , {useState, useEffect} from 'react';
+import React , {useState, useEffect,useContext} from 'react';
 import * as firebase from 'firebase';
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
-import { Typography, Grid } from '@material-ui/core';
+import { Typography, Grid,Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { AppContext } from './HomeComponent';
 const useStyles = makeStyles((theme) => ({
   name: {
     margin: theme.spacing(1),
@@ -27,6 +28,7 @@ nochat: {
 
 function FriendList(){
     const classes = useStyles();
+    const {state, dispatch} = useContext(AppContext);
     const [peopleRegistered, setPeopleRegistered]=useState([]);
     const [personSelected, SetPersonSelected]= useState({});
     const uid=(firebase.auth().currentUser||{}).uid;
@@ -47,16 +49,20 @@ function FriendList(){
         }
     })
     //dispatch personSelected and personSelectedID to the reducer
+    // dispatch({ type: 'CHANGE_PERSON', data: personSelected});
     if(peopleRegistered.length){
         const friendCard=peopleRegistered.map(people=>{
             if(people.uid!==uid)
             return(
-                <Paper elevation={3} onClick={()=>{
-                  SetPersonSelected({name:people.displayName,uid:people.uid});
+                
+                <Paper square elevation={3} onClick={()=>{
+                  dispatch({ type: 'CHANGE_PERSON', data: people});
                 }}>
                 <Grid component="main" container key={people.uid}>
                 <Grid sm={4} md={3}>
+                <Button>
                 {people.displayImage===''?(<Avatar className={classes.avatar} src="https://placeimg.com/140/140/any"/>):(<Avatar className={classes.avatar} src={people.displayImage} />)}
+                </Button>
                 </Grid>
                 <Grid sm={8} md={9}>
                 {(people.displayName!=='')?(<Typography component="h6" variant="h6" className={classes.name}>

@@ -35,11 +35,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   image: {
-    backgroundImage: 'url(https://webgradients.com/public/webgradients_png/041%20Happy%20Acid.png)',
-    backgroundRepeat: 'no-repeat',
-    backgroundColor:
-      theme.palette.type === 'dark' ? theme.palette.grey[50] : theme.palette.grey[900],
-    backgroundSize: 'cover',
+    background: 'linear-gradient(45deg, #1de9b6 30%, #4dd0e1 90%)',
     backgroundPosition: 'center',
   },
 }));

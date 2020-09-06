@@ -35,11 +35,7 @@ const styles = (theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   image: {
-    backgroundImage: 'url(https://cdn2.slidemodel.com/wp-content/uploads/7382-01-duotone-gradients-powerpoint-templates-16x9-2.jpg)',
-    backgroundRepeat: 'no-repeat',
-    backgroundColor:
-      theme.palette.type === 'dark' ? theme.palette.grey[50] : theme.palette.grey[900],
-    backgroundSize: 'cover',
+    background: 'linear-gradient(45deg, #c471ed 30%, #f64f59 90%)',
     backgroundPosition: 'center',
   },
 });
