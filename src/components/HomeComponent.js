@@ -14,15 +14,16 @@ const useStyles = makeStyles((theme) => ({
       },
     imageFriendList: {
         background: 'linear-gradient(45deg, #1de9b6 30%, #4dd0e1 90%)',
-        // height: '100vh',
-        // width:'100vh',
+        height: '100vh',
+        backgroundPosition: 'center',
+        width:'100vh',
         padding: theme.spacing(2),
       },
       imageMessage: {
         background: 'linear-gradient(-45deg, #FE6B8B 30%, #FF8E53 90%)',
-        // backgroundPosition: 'center',
-        // width:'100vh',
-        // height: '100vh',
+        backgroundPosition: 'center',
+        width:'100vh',
+        height: '100vh',
         padding: theme.spacing(2),
       },  
 }));
@@ -52,11 +53,11 @@ export default function Home(){
         <Grid container component="main" className={classes.root}>
         <CssBaseline />
         <AppContext.Provider value={{ state, dispatch }}>
-        <Grid item xs={5} sm={4} md={3} className={classes.imageFriendList} component={Paper} elevation={8} square>
+        <Grid item xs={12} sm={4} md={3} className={classes.imageFriendList} component={Paper} elevation={8} square>
         <ProfileComponent/>
         <FriendList/>
         </Grid>
-        <Grid item xs={7} sm={8} md={9} className={classes.imageMessage} component={Paper} elevation={8} square>
+        <Grid item xs={12} sm={8} md={9} className={classes.imageMessage} component={Paper} elevation={8} square>
         <Message personSelected={personSelected}/>
         </Grid>
         </AppContext.Provider>

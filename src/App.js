@@ -20,7 +20,6 @@ function App() {
     <BrowserRouter>
     <div className="App">
      {user?
-     <div>
      <Switch>
         <Route exact path="/profile" >
           {/* <Profile/> */}
@@ -30,7 +29,6 @@ function App() {
         </Route>
         <Redirect to="/" />
      </Switch>
-     </div>
      :
     
         <Switch>

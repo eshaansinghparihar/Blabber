@@ -22,35 +22,29 @@ nochat: {
 },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.main,
   }
 }));
 
 function FriendList(){
     const classes = useStyles();
     const {state, dispatch} = useContext(AppContext);
+    // var peopleRegistered=[];
     const [peopleRegistered, setPeopleRegistered]=useState([]);
-    const [personSelected, SetPersonSelected]= useState({});
     const uid=(firebase.auth().currentUser||{}).uid;
     const [error, setError]=useState('');
     useEffect(()=>{
-        if(uid){
-          firebase
-        .firestore()
-        .collection("users")
-        .get()
-        .then(function(querySnapshot) {
+      if(uid){
+          firebase.firestore().collection("users").onSnapshot(function(querySnapshot) {
+          var users = [];
           querySnapshot.forEach(function(doc) {
-            let users = querySnapshot.docs.map(doc => doc.data());
-            setPeopleRegistered(users);
-          });
-        })
-        .catch(err=>alert(err))
-        }
-    })
-    //dispatch personSelected and personSelectedID to the reducer
-    // dispatch({ type: 'CHANGE_PERSON', data: personSelected});
-    if(peopleRegistered.length){
+              users.push(doc.data());
+          })
+          setPeopleRegistered(users);
+    });
+  }
+},[uid]);
+        if(peopleRegistered.length){
         const friendCard=peopleRegistered.map(people=>{
             if(people.uid!==uid)
             return(
@@ -59,12 +53,10 @@ function FriendList(){
                   dispatch({ type: 'CHANGE_PERSON', data: people});
                 }}>
                 <Grid component="main" container key={people.uid}>
-                <Grid sm={4} md={3}>
-                <Button>
+                <Grid item sm={4} md={3}>
                 {people.displayImage===''?(<Avatar className={classes.avatar} src="https://placeimg.com/140/140/any"/>):(<Avatar className={classes.avatar} src={people.displayImage} />)}
-                </Button>
                 </Grid>
-                <Grid sm={8} md={9}>
+                <Grid item sm={8} md={9}>
                 {(people.displayName!=='')?(<Typography component="h6" variant="h6" className={classes.name}>
                 {people.displayName}
                 </Typography>):(<Typography component="h6" variant="h6" className={classes.name}>
