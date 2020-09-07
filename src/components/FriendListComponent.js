@@ -5,6 +5,8 @@ import Paper from '@material-ui/core/Paper';
 import { Typography, Grid,Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppContext } from './HomeComponent';
+import './Styles.css';
+
 const useStyles = makeStyles((theme) => ({
   name: {
     margin: theme.spacing(1),
@@ -106,11 +108,13 @@ export default function FriendListComponent(){
         <Paper elevation={3} >
         <Grid component="main" container>
         <Typography component="h5" variant="h5" className={classes.chatmssg}>
-        Chats Appear Below
+        Contacts Appear Below
         </Typography>
         </Grid>
         </Paper>
+        <div className="friendScroll">
         <FriendList/>
+        </div>
         </div>
     );
 }

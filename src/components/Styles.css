@@ -1,0 +1,13 @@
+.friendScroll {
+    flex: 1;
+    background: #eee;
+    overflow-y: scroll;
+    max-height:80vh;
+  }
+  .mssgScroll {
+    flex: 1;
+    overflow-y: scroll;
+    /* max-height:60vh; */
+    height: 70vh;
+    margin-bottom: 20px;
+  } 
