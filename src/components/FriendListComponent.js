@@ -2,7 +2,9 @@ import React , {useState, useEffect,useContext} from 'react';
 import * as firebase from 'firebase';
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
-import { Typography, Grid,Button } from '@material-ui/core';
+import { Typography, Grid,Button ,TextField} from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
+import CancelIcon from '@material-ui/icons/Cancel';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppContext } from './HomeComponent';
 import './Styles.css';
@@ -11,6 +13,18 @@ const useStyles = makeStyles((theme) => ({
   name: {
     margin: theme.spacing(1),
   },
+  messagebararea:{
+    // background: '#fff',
+    padding: '0 10px',
+    borderRadius: 20,
+    // background: 'linear-gradient(45deg, #fff 60%, #ffe 90%)',
+},
+submitSend:{
+  borderRadius: 5,
+  width:'2vh',
+  marginBottom:'5px',
+  marginTop:'5px'
+},
   chatmssg: {
     marginLeft:'auto',
     marginRight:'auto'
@@ -27,7 +41,64 @@ nochat: {
     backgroundColor: theme.palette.primary.main,
   }
 }));
-
+function Search({searchQuery}){
+    const classes = useStyles();
+    const {state, dispatch} = useContext(AppContext);
+    // var peopleRegistered=[];
+    const [peopleRegistered, setPeopleRegistered]=useState([]);
+    const uid=(firebase.auth().currentUser||{}).uid;
+    const [error, setError]=useState('');
+    useEffect(()=>{
+      if(uid){
+          firebase.firestore().collection("users").onSnapshot(function(querySnapshot) {
+          var users = [];
+          querySnapshot.forEach(function(doc) {
+              users.push(doc.data());
+          })
+          setPeopleRegistered(users);
+    });
+    firebase.firestore().collection("users").doc(uid).update({
+      lastseen: Date.now()
+  })
+  }
+},[uid]);
+  var searchResult=peopleRegistered.filter(elem=>(elem.displayName===searchQuery))
+  if(searchResult.length ){
+    const searchCard=searchResult.map((searchelem)=>{
+        if(searchelem.uid!==uid)
+        return(
+            
+            <Paper container onClick={()=>{
+              dispatch({ type: 'CHANGE_PERSON', data: searchelem});
+              firebase.firestore().collection("users").doc(uid).update({
+                lastseen: Date.now()
+              });
+            }}>
+            <Grid component="main" container key={searchelem.uid}>
+            <Grid item sm={4} md={3}>
+            {searchelem.displayImage===''?(<Avatar className={classes.avatar} src="https://placeimg.com/140/140/any"/>):(<Avatar className={classes.avatar} src={searchelem.displayImage} />)}
+            </Grid>
+            <Grid item sm={8} md={9}>
+            {(searchelem.displayName!=='')?(<Typography component="h6" variant="h6" className={classes.name}>
+            {searchelem.displayName}
+            </Typography>):(<Typography component="h6" variant="h6" className={classes.name}>
+            Loading... 
+            </Typography>)}
+            </Grid>
+            </Grid>
+            </Paper>
+      );
+    })
+    return(
+      <div>
+        {searchCard}
+      </div>
+    )
+  }
+  else{
+    return(<div/>);
+  }
+}
 function FriendList(){
     const classes = useStyles();
     const {state, dispatch} = useContext(AppContext);
@@ -109,8 +180,54 @@ function FriendList(){
 }
 export default function FriendListComponent(){
     const classes = useStyles();
+    const [searchQuery,setSearchQuery]=useState('');
+    const handleSearchClick=(e)=>{
+      setSearchQuery('');
+    }
+    console.log(searchQuery)
     return(
         <div>
+        <Paper elevation={3} >
+        <Grid component="main" container>
+        <Grid item xs={9} sm={9} md={9}>
+        <TextField
+              margin="dense"
+              fullWidth
+              variant="outlined"
+              label="Search"
+              id="searchQuery"
+              name="searchQuery"
+              marginDense
+              className={classes.messagebararea}
+              value={searchQuery}
+              onInput={ e=>setSearchQuery(e.target.value)}
+        />
+        </Grid>
+        <Grid item xs={3} sm={3} md={3}>
+        {searchQuery===''?(<Button
+          type="submit"
+          className={classes.submitSend}
+          color="primary"
+          variant="contained"
+          onClick={()=>setSearchQuery('')}
+        ><SearchIcon fontSize="small" className={classes.name}>
+        </SearchIcon>
+        </Button>):(
+        <Button
+          type="submit"
+          variant="contained"
+          className={classes.submitSend}
+          onClick={()=>setSearchQuery('')}
+        >
+        <CancelIcon color="secondary" fontSize="small" className={classes.name}></CancelIcon></Button>)}
+        </Grid>
+        </Grid>
+        <Grid item xs={12} sm={12} md={12}>
+        <div className="friendScroll">
+        <Search searchQuery={searchQuery}/>
+        </div>
+        </Grid>
+        </Paper>
         <Paper elevation={3} >
         <Grid component="main" container>
         <Typography component="h5" variant="h5" className={classes.chatmssg}>
