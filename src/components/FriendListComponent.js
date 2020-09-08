@@ -16,10 +16,10 @@ const useStyles = makeStyles((theme) => ({
     marginRight:'auto'
 },
 nochat: {
-    marginLeft:'auto',
-    marginRight:'auto',
-    height:'50vh',
-    marginBottom:'auto',
+    marginLeft:theme.spacing(1),
+    marginRight:theme.spacing(1),
+    height:'40vh',
+    marginBottom:theme.spacing(8),
     marginTop:theme.spacing(8)
 },
   avatar: {
@@ -44,6 +44,9 @@ function FriendList(){
           })
           setPeopleRegistered(users);
     });
+    firebase.firestore().collection("users").doc(uid).update({
+      lastseen: Date.now()
+  })
   }
 },[uid]);
         if(peopleRegistered.length){
@@ -53,6 +56,9 @@ function FriendList(){
                 
                 <Paper square elevation={3} onClick={()=>{
                   dispatch({ type: 'CHANGE_PERSON', data: people});
+                  firebase.firestore().collection("users").doc(uid).update({
+                    lastseen: Date.now()
+                  });
                 }}>
                 <Grid component="main" container key={people.uid}>
                 <Grid item sm={4} md={3}>
@@ -91,8 +97,8 @@ function FriendList(){
         return(
             <Paper elevation={3} >
             <Grid component="main" container>
-            <Typography component="h6" variant="h6" className={classes.nochat}>
-            There is No Chat to show! Search and Initiate a Convo now !
+            <Typography component="body2" display="block" className={classes.nochat}>
+            There is no chat to show! Either the data is being downloaded or no user is registered. 
             {error? error: ''} 
             </Typography>
             </Grid>

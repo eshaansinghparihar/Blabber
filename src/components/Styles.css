@@ -9,5 +9,26 @@
     overflow-y: scroll;
     /* max-height:60vh; */
     height: 70vh;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
+  }
+  .left {
+    float: left;
+  }
+  .right {
+    float: right;
+  }
+  .mssgWrapper{
+    width:'100vh';
+    display:inline-block;
+    clear: both;
+  }
+  @media only screen and (max-width: 780px) {
+    /* For mobile phones: */
+    .mssgScroll {
+      flex: 1;
+      overflow-y: scroll;
+      /* max-height:60vh; */
+      height: 65vh;
+      margin-bottom: 8px;
+    }
   } 

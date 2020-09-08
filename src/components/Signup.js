@@ -36,6 +36,7 @@ const styles = (theme) => ({
   },
   image: {
     background: 'linear-gradient(45deg, #c471ed 30%, #f64f59 90%)',
+    // background: 'linear-gradient(45deg, #FDC830 30%,#f05053 120%)',
     backgroundPosition: 'center',
   },
 });
