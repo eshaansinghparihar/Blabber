@@ -44,14 +44,14 @@ export default function ProfileComponent(){
         <Grid className={classes.profileBottom}>
         <Paper elevation={3} >
         <Grid component="main" container>
-        <Grid item sm={8} md={10}>
+        <Grid item sm={8} md={9}>
         {(displayName!=='')?(<Typography component="h6" variant="h6" className={classes.name}>
         {displayName}
         </Typography>):(<Typography component="h6" variant="h6" className={classes.name}>
         Welcome Back 
         </Typography>)}
         </Grid>
-        <Grid item sm={4} md={2}>
+        <Grid item sm={4} md={3}>
         {(displayImage!=='')?(<Avatar className={classes.avatar} src={displayImage}/>):(<Avatar className={classes.avatar} />)}
         </Grid>
         </Grid>

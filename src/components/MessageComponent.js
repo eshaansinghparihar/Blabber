@@ -8,7 +8,7 @@ import AttachmentIcon from '@material-ui/icons/Attachment';
 import './Styles.css';
 const useStyles = makeStyles((theme) => ({
     paper:{
-        marginBottom:theme.spacing(2)
+        marginBottom:theme.spacing(1)
     },
     messagebar:{
         minHeight:'4vh',
@@ -21,7 +21,9 @@ const useStyles = makeStyles((theme) => ({
     },
     name: {
     float:'left',
-    margin:theme.spacing(2),
+    marginTop:theme.spacing(1),
+    marginLeft:theme.spacing(2),
+    margin:'8',
     },
     mssg: {
         float:'left',

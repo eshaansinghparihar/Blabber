@@ -21,13 +21,14 @@ const useStyles = makeStyles((theme) => ({
 },
 submitSend:{
   borderRadius: 5,
-  width:'2vh',
   marginBottom:'5px',
+  marginLeft:'auto',
+  marginRight:'auto',
   marginTop:'5px'
 },
   chatmssg: {
     marginLeft:'auto',
-    marginRight:'auto'
+    marginRight:'auto',
 },
 nochat: {
     marginLeft:theme.spacing(1),
@@ -41,7 +42,7 @@ nochat: {
     backgroundColor: theme.palette.primary.main,
   }
 }));
-function Search({searchQuery}){
+function SearchwithFriendList({searchQuery}){
     const classes = useStyles();
     const {state, dispatch} = useContext(AppContext);
     // var peopleRegistered=[];
@@ -62,12 +63,12 @@ function Search({searchQuery}){
   })
   }
 },[uid]);
-  var searchResult=peopleRegistered.filter(elem=>(elem.displayName===searchQuery))
+  var searchResult=[];
+  searchResult=peopleRegistered.filter(elem=>(elem.displayName.toUpperCase().includes(searchQuery.toUpperCase())));
   if(searchResult.length ){
     const searchCard=searchResult.map((searchelem)=>{
         if(searchelem.uid!==uid)
         return(
-            
             <Paper container onClick={()=>{
               dispatch({ type: 'CHANGE_PERSON', data: searchelem});
               firebase.firestore().collection("users").doc(uid).update({
@@ -91,92 +92,43 @@ function Search({searchQuery}){
     })
     return(
       <div>
+        <Paper elevation={3} >
+        <Grid component="main" container>
+        <Typography component="h5" variant="h5" className={classes.chatmssg}>
+        Contacts Appear Below
+        </Typography>
+        </Grid>
+        </Paper>
+        <div className="friendScroll">
         {searchCard}
+        </div>
       </div>
     )
   }
+  else if(error)
+  {
+    return(
+      <Paper elevation={3} >
+      <Grid component="main" container>
+      <Typography component="h6" variant="h6" color="error" className={classes.nochat}>
+      {error? error: ''} 
+      </Typography>
+      </Grid>
+      </Paper>
+    );
+  }
   else{
-    return(<div/>);
-  }
-}
-function FriendList(){
-    const classes = useStyles();
-    const {state, dispatch} = useContext(AppContext);
-    // var peopleRegistered=[];
-    const [peopleRegistered, setPeopleRegistered]=useState([]);
-    const uid=(firebase.auth().currentUser||{}).uid;
-    const [error, setError]=useState('');
-    useEffect(()=>{
-      if(uid){
-          firebase.firestore().collection("users").onSnapshot(function(querySnapshot) {
-          var users = [];
-          querySnapshot.forEach(function(doc) {
-              users.push(doc.data());
-          })
-          setPeopleRegistered(users);
-    });
-    firebase.firestore().collection("users").doc(uid).update({
-      lastseen: Date.now()
-  })
-  }
-},[uid]);
-        if(peopleRegistered.length){
-        const friendCard=peopleRegistered.map(people=>{
-            if(people.uid!==uid)
-            return(
-                
-                <Paper square elevation={3} onClick={()=>{
-                  dispatch({ type: 'CHANGE_PERSON', data: people});
-                  firebase.firestore().collection("users").doc(uid).update({
-                    lastseen: Date.now()
-                  });
-                }}>
-                <Grid component="main" container key={people.uid}>
-                <Grid item sm={4} md={3}>
-                {people.displayImage===''?(<Avatar className={classes.avatar} src="https://placeimg.com/140/140/any"/>):(<Avatar className={classes.avatar} src={people.displayImage} />)}
-                </Grid>
-                <Grid item sm={8} md={9}>
-                {(people.displayName!=='')?(<Typography component="h6" variant="h6" className={classes.name}>
-                {people.displayName}
-                </Typography>):(<Typography component="h6" variant="h6" className={classes.name}>
-                Loading... 
-                </Typography>)}
-                </Grid>
-                </Grid>
-                </Paper>
-            );
-        })
-        return(
-            <div>
-            {friendCard}
-            </div>
-        );
-    }
-    else if(error)
-    {
-      return(
+    return(
         <Paper elevation={3} >
         <Grid component="main" container>
-        <Typography component="h6" variant="h6" color="error" className={classes.nochat}>
+        <Typography component="body2" display="block" className={classes.nochat}>
+        There is no chat to show! Either the data is being downloaded or no user is registered. 
         {error? error: ''} 
         </Typography>
         </Grid>
         </Paper>
-      );
-    }
-    else{
-        return(
-            <Paper elevation={3} >
-            <Grid component="main" container>
-            <Typography component="body2" display="block" className={classes.nochat}>
-            There is no chat to show! Either the data is being downloaded or no user is registered. 
-            {error? error: ''} 
-            </Typography>
-            </Grid>
-            </Paper>
-        );
-    }
-
+    );
+}
 }
 export default function FriendListComponent(){
     const classes = useStyles();
@@ -208,36 +160,24 @@ export default function FriendListComponent(){
           type="submit"
           className={classes.submitSend}
           color="primary"
-          variant="contained"
+          //variant="contained"
           onClick={()=>setSearchQuery('')}
-        ><SearchIcon fontSize="small" className={classes.name}>
+        ><SearchIcon fontSize="normal" className={classes.name}>
         </SearchIcon>
         </Button>):(
         <Button
           type="submit"
-          variant="contained"
+          //variant="contained"
           className={classes.submitSend}
           onClick={()=>setSearchQuery('')}
         >
-        <CancelIcon color="secondary" fontSize="small" className={classes.name}></CancelIcon></Button>)}
+        <CancelIcon color="secondary" fontSize="normal" className={classes.name}></CancelIcon></Button>)}
         </Grid>
         </Grid>
         <Grid item xs={12} sm={12} md={12}>
-        <div className="friendScroll">
-        <Search searchQuery={searchQuery}/>
-        </div>
+        <SearchwithFriendList searchQuery={searchQuery}/>
         </Grid>
         </Paper>
-        <Paper elevation={3} >
-        <Grid component="main" container>
-        <Typography component="h5" variant="h5" className={classes.chatmssg}>
-        Contacts Appear Below
-        </Typography>
-        </Grid>
-        </Paper>
-        <div className="friendScroll">
-        <FriendList/>
-        </div>
         </div>
     );
 }

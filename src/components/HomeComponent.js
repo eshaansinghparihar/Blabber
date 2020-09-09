@@ -13,11 +13,11 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
       },
     imageFriendList: {
-        //background: 'linear-gradient(45deg, #1de9b6 30%, #4dd0e1 90%)',
+        background: 'linear-gradient(45deg, #1de9b6 30%, #4dd0e1 90%)',
         //background: 'linear-gradient(45deg, #c471ed 30%, #f64f59 90%)',
         // use this below in profile section
         // background: 'linear-gradient(45deg, #3c1053 30%,#fdbb2d 110%)',
-        background: 'linear-gradient(-45deg, #0cebeb 30%, #29ffc6 90%)',
+        //background: 'linear-gradient(-45deg, #0cebeb 30%, #29ffc6 90%)',
         height: '100vh',
         backgroundPosition: 'center',
         width:'100vh',
