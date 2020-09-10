@@ -158,11 +158,7 @@ const MessageList=({personSelected, me})=>{
                     <Grid item component={Paper} className={classes.left}  >
                     <Typography variant="caption" display="block" className={classes.mssg}>{mssg.senderName}</Typography>
                     <br/>
-                    {mssg.mediaMssg && <CardMedia
-                    component="img"
-                    className={classes.media}
-                    imageUrl={mssg.mediaMssg}
-                    />}
+                    {mssg.mediaMssg && <img className={classes.media} src={mssg.mediaMssg} width={250} height={250} />}
                     <br/>
                     <Typography variant="subtitle1" display="inline" noWrap={false} className={classes.mssg}>{mssg.message}</Typography>
                     <br/>
