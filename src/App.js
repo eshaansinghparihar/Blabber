@@ -6,6 +6,7 @@ import firebaseConfig from './config';
 import Signin from './components/Signin';
 import Signup from './components/Signup';
 import Home from './components/HomeComponent';
+import Profile from './components/Profile';
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
@@ -22,7 +23,7 @@ function App() {
      {user?
      <Switch>
         <Route exact path="/profile" >
-          {/* <Profile/> */}
+          <Profile/>
         </Route>
         <Route path='/' >
           <Home/>

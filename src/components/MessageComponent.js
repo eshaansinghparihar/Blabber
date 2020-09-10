@@ -1,11 +1,10 @@
 import React , {useState, useEffect , Fragment} from 'react';
 import * as firebase from 'firebase';
-import { Typography, Grid,Paper ,Avatar, TextField, Button ,LinearProgress,Box} from '@material-ui/core';
+import { Typography, Grid,Paper ,Avatar, TextField, Button,IconButton ,LinearProgress,Box} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import moment from "moment";
 import SendIcon from '@material-ui/icons/Send';
 import CardMedia from '@material-ui/core/CardMedia';
-import IconButton from '@material-ui/core/IconButton';
 import AttachmentIcon from '@material-ui/icons/Attachment';
 import storage from 'firebase/storage';
 import './Styles.css';
@@ -319,7 +318,7 @@ const MessageBar=({personSelected,me})=>{
         return(
         <Grid component="main" className={classes.messagebar} container xs={12} sm={12} md={12} elevation={3}>
         <Grid className={classes.messagebararea} item xs={10} sm={10} md={10} component={Paper}>
-        {progress ? (<LinearProgressWithLabel value={progress} />):(<div/>)}
+        {progress>0 ? (<LinearProgressWithLabel value={progress} />):(<div/>)}
         <TextField
               margin="dense"
               fullWidth
@@ -334,14 +333,14 @@ const MessageBar=({personSelected,me})=>{
             />
         </Grid>
         <Grid item xs={2} sm={2} md={2} >
-        {inputMessage || remoteUrl?(<Button
+        {inputMessage || remoteUrl?(<IconButton
             type="submit"
             fullWidth
             component="span"
             variant="contained"
             className={classes.submitSend}
             onClick={()=>handleSubmit()}
-        ><SendIcon color="secondary"/></Button>):(<div/>)}
+        ><SendIcon color="secondary"/></IconButton>):(<div/>)}
         <Fragment>
         <input
         type="file"
@@ -353,7 +352,7 @@ const MessageBar=({personSelected,me})=>{
         }}
         />
         <label htmlFor="raised-button-file">
-        <Button
+        <IconButton
         type="submit"
         fullWidth
         containerElement='label'
@@ -362,7 +361,7 @@ const MessageBar=({personSelected,me})=>{
         className={classes.submitUpload}
         >
         <AttachmentIcon color="primary"/>
-        </Button>
+        </IconButton>
         </label>
         </Fragment>
          </Grid>

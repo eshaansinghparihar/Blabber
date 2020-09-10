@@ -32,7 +32,14 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(8),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    background: 'linear-gradient(45deg,#0082c8 30%,#667db6 110%)',
+    borderRadius: 20,
+    margin:theme.spacing(1),
+    marginLeft:'auto',
+    marginRight:'auto',
+    width:'100%',
+    color:'white',
+    marginBottom:'5px'
   },
   image: {
     background: 'linear-gradient(45deg, #1de9b6 30%, #4dd0e1 90%)',
