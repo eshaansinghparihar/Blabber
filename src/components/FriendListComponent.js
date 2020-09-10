@@ -2,7 +2,7 @@ import React , {useState, useEffect,useContext} from 'react';
 import * as firebase from 'firebase';
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
-import { Typography, Grid,Button ,TextField} from '@material-ui/core';
+import { Typography, Grid,Button ,TextField,ListItem,Divider} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { makeStyles } from '@material-ui/core/styles';
@@ -77,6 +77,7 @@ function SearchwithFriendList({searchQuery}){
                 lastseen: Date.now()
               });
             }}>
+            <ListItem button>
             <Grid component="main" container key={searchelem.uid}>
             <Grid item sm={4} md={3}>
             {searchelem.displayImage===''?(<Avatar className={classes.avatar} src="https://placeimg.com/140/140/any"/>):(<Avatar className={classes.avatar} src={searchelem.displayImage} />)}
@@ -89,7 +90,10 @@ function SearchwithFriendList({searchQuery}){
             </Typography>)}
             </Grid>
             </Grid>
+            </ListItem>
+            <Divider/>
             </Paper>
+            
       );
     })
     return(
