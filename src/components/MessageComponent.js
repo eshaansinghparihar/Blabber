@@ -1,6 +1,6 @@
 import React , {useState, useEffect , Fragment} from 'react';
 import * as firebase from 'firebase';
-import { Typography, Grid,Paper ,Avatar, TextField, Button ,Card} from '@material-ui/core';
+import { Typography, Grid,Paper ,Avatar, TextField, Button ,LinearProgress,Box} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import moment from "moment";
 import SendIcon from '@material-ui/icons/Send';
@@ -13,9 +13,8 @@ const useStyles = makeStyles((theme) => ({
     paper:{
         marginBottom:theme.spacing(1)
     },
-    media: {
-        height: 0,
-        paddingTop: '56.25%', // 16:9
+    progress:{
+        fontSize:"8"
     },
     messagebar:{
         minHeight:'4vh',
@@ -50,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
         maxWidth:'90vh',
         color: 'white',
         padding: '0 10px',
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .75)',
         marginBottom:theme.spacing(1),
     },
     right:{
@@ -63,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
         border: 0,
         color: 'black',
         padding: '0 10px',
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .75)',
         marginBottom:theme.spacing(1),
     },
     submitSend:{
@@ -143,11 +142,7 @@ const MessageList=({personSelected, me})=>{
                     <Grid item component={Paper} className={classes.right} >
                     <Typography variant="caption" display="block" className={classes.mssg}>{mssg.senderName}</Typography>
                     <br/>
-                    {mssg.mediaMssg && <CardMedia
-                    component="img"
-                    className={classes.media}
-                    src={mssg.mediaMssg}
-                    />}
+                    {mssg.mediaMssg && <img className={classes.media} src={mssg.mediaMssg} width={250} height={250} />}
                     <br/>
                     <Typography variant="subtitle1" display="inline" noWrap={false} className={classes.mssg}>{mssg.message}</Typography>
                     <br/>
@@ -166,7 +161,7 @@ const MessageList=({personSelected, me})=>{
                     {mssg.mediaMssg && <CardMedia
                     component="img"
                     className={classes.media}
-                    src={mssg.mediaMssg}
+                    imageUrl={mssg.mediaMssg}
                     />}
                     <br/>
                     <Typography variant="subtitle1" display="inline" noWrap={false} className={classes.mssg}>{mssg.message}</Typography>
@@ -205,12 +200,24 @@ const MessageList=({personSelected, me})=>{
     }
 
 }
-
+function LinearProgressWithLabel(props) {
+    return (
+      <Box display="flex" alignItems="center">
+        <Box width="100%" mr={1}>
+          <LinearProgress variant="determinate" {...props} />
+        </Box>
+        <Box minWidth={35}>
+          <Typography variant="body2" color="textSecondary">{props.value}%</Typography>
+        </Box>
+      </Box>
+    );
+  }
 const MessageBar=({personSelected,me})=>{
     const classes = useStyles();
     const [inputMessage,setInputMessage]=useState('');
     const uid=(firebase.auth().currentUser||{}).uid;
     const [remoteUrl,setremoteUrl]=useState('');
+    const [progress,setProgress]=useState(0);
 
     // const handleAttatchmentUpload=async ()=>{
     //     let remoteUri='';
@@ -230,7 +237,7 @@ const MessageBar=({personSelected,me})=>{
             uploadTask.on('state_changed', 
             (snapShot) => {
               //takes a snap shot of the process as it is happening
-              console.log(snapShot)
+              setProgress(Math.round((snapShot.bytesTransferred/snapShot.totalBytes)*100));
             }, (err) => {
               //catches the errors
               console.log(err)
@@ -291,6 +298,7 @@ const MessageBar=({personSelected,me})=>{
             }).catch(error=>alert(error.message));
             setInputMessage('');
             setremoteUrl('');
+            setProgress(0);
         }
         else
         {
@@ -313,8 +321,9 @@ const MessageBar=({personSelected,me})=>{
     }
     if(personSelected && me){
         return(
-        <Grid component="main" className={classes.messagebar}  container xs={12} sm={12} md={12} elevation={3}>
+        <Grid component="main" className={classes.messagebar} container xs={12} sm={12} md={12} elevation={3}>
         <Grid className={classes.messagebararea} item xs={10} sm={10} md={10} component={Paper}>
+        {progress ? (<LinearProgressWithLabel value={progress} />):(<div/>)}
         <TextField
               margin="dense"
               fullWidth
@@ -322,13 +331,12 @@ const MessageBar=({personSelected,me})=>{
               id="inputMessage"
               name="inputMessage"
               multiline
-              marginDense
               className={classes.textarea}
               rowsMax={2}
               value={inputMessage}
               onInput={ e=>setInputMessage(e.target.value)}
             />
-         </Grid>
+        </Grid>
         <Grid item xs={2} sm={2} md={2} >
         {inputMessage || remoteUrl?(<Button
             type="submit"

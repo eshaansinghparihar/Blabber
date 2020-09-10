@@ -71,7 +71,7 @@ function SearchwithFriendList({searchQuery}){
     const searchCard=searchResult.map((searchelem)=>{
         if(searchelem.uid!==uid)
         return(
-            <Paper container onClick={()=>{
+            <Paper container="true" onClick={()=>{
               dispatch({ type: 'CHANGE_PERSON', data: searchelem});
               firebase.firestore().collection("users").doc(uid).update({
                 lastseen: Date.now()
@@ -123,7 +123,7 @@ function SearchwithFriendList({searchQuery}){
     return(
         <Paper elevation={3} >
         <Grid component="main" container>
-        <Typography component="body2" display="block" className={classes.nochat}>
+        <Typography component="body1" display="block" className={classes.nochat}>
         There is no chat to show! Either the data is being downloaded or no user is registered. 
         {error? error: ''} 
         </Typography>
@@ -147,7 +147,6 @@ export default function FriendListComponent(){
               label=" Search "
               id="searchQuery"
               name="searchQuery"
-              marginDense
               className={classes.messagebararea}
               value={searchQuery}
               onInput={ e=>setSearchQuery(e.target.value)}
@@ -159,7 +158,7 @@ export default function FriendListComponent(){
           className={classes.submitSend}
           color="primary"
           onClick={()=>setSearchQuery('')}
-        ><SearchIcon fontSize="normal" className={classes.name}>
+        ><SearchIcon fontSize="default" className={classes.name}>
         </SearchIcon>
         </Button>):(
         <Button
@@ -167,7 +166,7 @@ export default function FriendListComponent(){
           className={classes.submitSend}
           onClick={()=>setSearchQuery('')}
         >
-        <CancelIcon color="secondary" fontSize="normal" className={classes.name}></CancelIcon></Button>)}
+        <CancelIcon color="secondary" fontSize="default" className={classes.name}></CancelIcon></Button>)}
         </Grid>
         </Grid>
         <Grid item xs={12} sm={12} md={12}>

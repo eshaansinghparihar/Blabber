@@ -1,6 +1,5 @@
-import React , {useState, useEffect, useReducer , createContext} from 'react';
+import React , { useReducer , createContext} from 'react';
 
-import * as firebase from 'firebase';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
@@ -17,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         //background: 'linear-gradient(45deg, #c471ed 30%, #f64f59 90%)',
         // use this below in profile section
         // background: 'linear-gradient(45deg, #3c1053 30%,#fdbb2d 110%)',
-        //background: 'linear-gradient(-45deg, #0cebeb 30%, #29ffc6 90%)',
+        // background: 'linear-gradient(45deg, #0cebeb 30%, #29ffc6 90%)',
         height: '100vh',
         backgroundPosition: 'center',
         width:'100vh',
@@ -25,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
       },
       imageMessage: {
         background: 'linear-gradient(-45deg, #FDC830 30%,#f05053 120%)',
+        //background: 'linear-gradient(-45deg, #c471ed 30%, #f64f59 90%)',
         // background: 'linear-gradient(45deg,#9796f0 30% ,#fbc7d4 90%)',
         backgroundPosition: 'center',
         width:'100vh',
