@@ -1,14 +1,21 @@
-import React , {useState, useEffect} from 'react';
+import React , {useState, useEffect , Fragment} from 'react';
 import * as firebase from 'firebase';
-import { Typography, Grid,Paper ,Avatar, TextField, Button, Box } from '@material-ui/core';
+import { Typography, Grid,Paper ,Avatar, TextField, Button ,Card} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import moment from "moment";
 import SendIcon from '@material-ui/icons/Send';
+import CardMedia from '@material-ui/core/CardMedia';
+import IconButton from '@material-ui/core/IconButton';
 import AttachmentIcon from '@material-ui/icons/Attachment';
+import storage from 'firebase/storage';
 import './Styles.css';
 const useStyles = makeStyles((theme) => ({
     paper:{
         marginBottom:theme.spacing(1)
+    },
+    media: {
+        height: 0,
+        paddingTop: '56.25%', // 16:9
     },
     messagebar:{
         minHeight:'4vh',
@@ -136,6 +143,12 @@ const MessageList=({personSelected, me})=>{
                     <Grid item component={Paper} className={classes.right} >
                     <Typography variant="caption" display="block" className={classes.mssg}>{mssg.senderName}</Typography>
                     <br/>
+                    {mssg.mediaMssg && <CardMedia
+                    component="img"
+                    className={classes.media}
+                    src={mssg.mediaMssg}
+                    />}
+                    <br/>
                     <Typography variant="subtitle1" display="inline" noWrap={false} className={classes.mssg}>{mssg.message}</Typography>
                     <br/>
                     <Typography variant="caption" display="block" className={classes.mssg}>{new Intl.DateTimeFormat('en-US', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' , hour: '2-digit', minute: '2-digit'}).format(mssg.timestamp)}</Typography>
@@ -150,6 +163,12 @@ const MessageList=({personSelected, me})=>{
                     <Grid item component={Paper} className={classes.left}  >
                     <Typography variant="caption" display="block" className={classes.mssg}>{mssg.senderName}</Typography>
                     <br/>
+                    {mssg.mediaMssg && <CardMedia
+                    component="img"
+                    className={classes.media}
+                    src={mssg.mediaMssg}
+                    />}
+                    <br/>
                     <Typography variant="subtitle1" display="inline" noWrap={false} className={classes.mssg}>{mssg.message}</Typography>
                     <br/>
                     <Typography variant="caption" display="block" className={classes.mssg}>{new Intl.DateTimeFormat('en-US', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' , hour: '2-digit', minute: '2-digit'}).format(mssg.timestamp)}</Typography>
@@ -158,8 +177,6 @@ const MessageList=({personSelected, me})=>{
                     </Paper>
                     </div>)}
                 </div>    
-                // </Paper>
-                // </div>
             )
         }
         )
@@ -192,23 +209,107 @@ const MessageList=({personSelected, me})=>{
 const MessageBar=({personSelected,me})=>{
     const classes = useStyles();
     const [inputMessage,setInputMessage]=useState('');
-    const handleAttatchmentUpload=(e)=>{};
-    const handleSubmit=(e)=>{
-        // e.preventDefault();
-        firebase.firestore().collection("users").doc(me.uid).update({
-            lastseen: Date.now()
+    const uid=(firebase.auth().currentUser||{}).uid;
+    const [remoteUrl,setremoteUrl]=useState('');
+
+    // const handleAttatchmentUpload=async ()=>{
+    //     let remoteUri='';
+    //     console.log('handleAttatchment fired');
+        // remoteUri= await uploadImage(localUrl, `media/${uid}/${Date.now()}`);
+     
+        // if(remoteUri!=='')
+        // {
+        //     setremoteUrl(remoteUri);
+        //     remoteUri='';
+        // }
+        //}
+    const handleAttatchmentUpload=(e)=>{
+            let localUrl=e.target.files[0]
+            const uploadTask = firebase.storage().ref(`/media/${localUrl.name}`).put(localUrl)
+            //initiates the firebase side uploading 
+            uploadTask.on('state_changed', 
+            (snapShot) => {
+              //takes a snap shot of the process as it is happening
+              console.log(snapShot)
+            }, (err) => {
+              //catches the errors
+              console.log(err)
+            }, () => {
+              // gets the functions from storage refences the image storage in firebase by the children
+              // gets the download url then sets the image from firebase as the value for the imgUrl key:
+              firebase.storage().ref('media').child(localUrl.name).getDownloadURL()
+               .then(fireBaseUrl => {
+                 setremoteUrl(fireBaseUrl);
+               })
         })
-        .catch(error=> alert(error.message));
+    }  
+    // const uploadImage = async (uri, filename)=>{
+            // return new Promise(async (res, rej) => {
+            // const response = await fetch(uri);
+            // const file = await response.blob()
+            // console.log('Blob :');
+            // console.log(file);
+        //     let upload = firebase
+        //         .storage()
+        //         .ref(filename)
+        //         .put(uri);
 
-        firebase.firestore().collection("users").doc(me.uid).update({
-        messages:firebase.firestore.FieldValue.arrayUnion({message:inputMessage,imgMssg:'', senderName:me.displayName , receiverName:personSelected.displayName , senderID:me.uid, receiverID:personSelected.uid, timestamp: Date.now()}),
-        }).catch(error=>alert(error.message));
+        //     upload.on(
+        //         "state_changed",
+        //         snapshot => {},
+        //         err => {
+        //             rej(err);
+        //         },
+        //         async () => {
+        //             const url = await upload.snapshot.ref.getDownloadURL();
+        //             console.log('Upload Succesful:'+url);
+        //             res(url);
+        //         }
+        //     );
+        // })
+        // .catch((error) => {
+        //     alert(error.message);
+        // });
 
-        firebase.firestore().collection("users").doc(personSelected.uid).update({
-        messages:firebase.firestore.FieldValue.arrayUnion({message:inputMessage,imgMssg:'', senderName:me.displayName , receiverName:personSelected.displayName , senderID:me.uid, receiverID:personSelected.uid, timestamp: Date.now()}),
-        }).catch(error=>alert(error.message));
 
-        setInputMessage('');
+    const handleSubmit= (e)=>{
+        // e.preventDefault();
+
+        if(remoteUrl!=='')
+        {
+            firebase.firestore().collection("users").doc(me.uid).update({
+                lastseen: Date.now()
+            })
+            .catch(error=> alert(error.message));
+    
+            firebase.firestore().collection("users").doc(me.uid).update({
+            messages:firebase.firestore.FieldValue.arrayUnion({message:inputMessage,mediaMssg:remoteUrl, senderName:me.displayName , receiverName:personSelected.displayName , senderID:me.uid, receiverID:personSelected.uid, timestamp: Date.now()}),
+            }).catch(error=>alert(error.message));
+    
+            firebase.firestore().collection("users").doc(personSelected.uid).update({
+            messages:firebase.firestore.FieldValue.arrayUnion({message:inputMessage,mediaMssg:remoteUrl, senderName:me.displayName , receiverName:personSelected.displayName , senderID:me.uid, receiverID:personSelected.uid, timestamp: Date.now()}),
+            }).catch(error=>alert(error.message));
+            setInputMessage('');
+            setremoteUrl('');
+        }
+        else
+        {
+            firebase.firestore().collection("users").doc(me.uid).update({
+                lastseen: Date.now()
+            })
+            .catch(error=> alert(error.message));
+    
+            firebase.firestore().collection("users").doc(me.uid).update({
+            messages:firebase.firestore.FieldValue.arrayUnion({message:inputMessage,mediaMssg:'', senderName:me.displayName , receiverName:personSelected.displayName , senderID:me.uid, receiverID:personSelected.uid, timestamp: Date.now()}),
+            }).catch(error=>alert(error.message));
+    
+            firebase.firestore().collection("users").doc(personSelected.uid).update({
+            messages:firebase.firestore.FieldValue.arrayUnion({message:inputMessage,mediaMssg:'', senderName:me.displayName , receiverName:personSelected.displayName , senderID:me.uid, receiverID:personSelected.uid, timestamp: Date.now()}),
+            }).catch(error=>alert(error.message));
+    
+            setInputMessage('');
+        }
+
     }
     if(personSelected && me){
         return(
@@ -229,23 +330,37 @@ const MessageBar=({personSelected,me})=>{
             />
          </Grid>
         <Grid item xs={2} sm={2} md={2} >
-        {inputMessage?(<Button
+        {inputMessage || remoteUrl?(<Button
             type="submit"
             fullWidth
+            component="span"
             variant="contained"
             className={classes.submitSend}
             onClick={()=>handleSubmit()}
         ><SendIcon color="secondary"/></Button>):(<div/>)}
-
-         <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            className={classes.submitUpload}
-            onClick={()=>handleAttatchmentUpload()}
-          ><AttachmentIcon color="primary"/>
-        </Button> 
-
+        <Fragment>
+        <input
+        type="file"
+        id="raised-button-file"
+        accept="image/*, video/* , audio/*"
+        style={{ display:"none" ,marginLeft:"auto",marginRight:"auto", }}
+        onChange={e=>{  //setlocalUrl(e.target.files[0]);
+                        handleAttatchmentUpload(e)
+        }}
+        />
+        <label htmlFor="raised-button-file">
+        <Button
+        type="submit"
+        fullWidth
+        containerElement='label'
+        variant="contained"
+        component="span"
+        className={classes.submitUpload}
+        >
+        <AttachmentIcon color="primary"/>
+        </Button>
+        </label>
+        </Fragment>
          </Grid>
          </Grid>
         )

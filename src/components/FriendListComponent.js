@@ -16,7 +16,9 @@ const useStyles = makeStyles((theme) => ({
   messagebararea:{
     // background: '#fff',
     padding: '0 10px',
-    borderRadius: 20,
+    // borderRadius: 50,
+    marginLeft:'auto',
+    marginRight:'auto'
     // background: 'linear-gradient(45deg, #fff 60%, #ffe 90%)',
 },
 submitSend:{
@@ -133,10 +135,6 @@ function SearchwithFriendList({searchQuery}){
 export default function FriendListComponent(){
     const classes = useStyles();
     const [searchQuery,setSearchQuery]=useState('');
-    const handleSearchClick=(e)=>{
-      setSearchQuery('');
-    }
-    console.log(searchQuery)
     return(
         <div>
         <Paper elevation={3} >
@@ -146,7 +144,7 @@ export default function FriendListComponent(){
               margin="dense"
               fullWidth
               variant="outlined"
-              label="Search"
+              label=" Search "
               id="searchQuery"
               name="searchQuery"
               marginDense
@@ -160,14 +158,12 @@ export default function FriendListComponent(){
           type="submit"
           className={classes.submitSend}
           color="primary"
-          //variant="contained"
           onClick={()=>setSearchQuery('')}
         ><SearchIcon fontSize="normal" className={classes.name}>
         </SearchIcon>
         </Button>):(
         <Button
           type="submit"
-          //variant="contained"
           className={classes.submitSend}
           onClick={()=>setSearchQuery('')}
         >
