@@ -9,7 +9,7 @@
     overflow-y: scroll;
     /* max-height:60vh; */
     height: 70vh;
-    margin-bottom: 8px;
+    /* margin-bottom: 8px; */
   }
   .left {
     float: left;
@@ -41,17 +41,15 @@
       flex: 1;
       overflow-y: scroll;
       /* max-height:60vh; */
-      height: 62vh;
-      margin-bottom: 6px;
+      height: 65vh;
     }
   }
-  @media only screen and (max-width: 780px) {
+  @media only screen and (min-device-width: 681px) and (max-device-width: 780px) {
     /* For mobile phones: */
     .mssgScroll {
       flex: 1;
       overflow-y: scroll;
       /* max-height:60vh; */
-      height: 62vh;
-      margin-bottom: 6px;
+      height: 75vh;
     }
   }  

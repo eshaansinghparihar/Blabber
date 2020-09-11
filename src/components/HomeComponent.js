@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
         // use this below in profile section
         // background: 'linear-gradient(45deg, #3c1053 30%,#fdbb2d 110%)',
         // background: 'linear-gradient(45deg, #0cebeb 30%, #29ffc6 90%)',
-        height: '100vh',
+        minHeight: '100vh',
         backgroundPosition: 'center',
         width:'auto',
         padding: theme.spacing(2),
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
         // background: 'linear-gradient(45deg,#9796f0 30% ,#fbc7d4 90%)',
         backgroundPosition: 'center',
         width:'auto',
-        height: '100vh',
+        minHeight: '100vh',
         padding: theme.spacing(2),
       },
 

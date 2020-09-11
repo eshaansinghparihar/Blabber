@@ -15,11 +15,11 @@ const useStyles = makeStyles((theme) => ({
         fontSize:"8"
     },
     messagebar:{
-        minHeight:'4vh',
+        // minHeight:'4vh',
     },
     messagebararea:{
         // background: '#fff',
-        padding: '0 10px',
+        padding: '0 5px',
         borderRadius: 20,
         // background: 'linear-gradient(45deg, #fff 60%, #ffe 90%)',
     },
