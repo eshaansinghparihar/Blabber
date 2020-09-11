@@ -135,7 +135,7 @@ export default function SignIn() {
         </div>
         <div className={classes.paper}>
         <Avatar className={classes.avatar} >
-        {displayImage ? <img className={classes.media} src={displayImage} alt="Loading..."/> : <img className={classes.media} src="https://placeimg.com/240/240/any" alt="Loading..."/>}
+        {displayImage ? <img className={classes.media} src={displayImage} alt="Loading..."/> : <img className={classes.media} src=""/>}
         </Avatar>
         {displayName && <Typography variant="h6" ><h4>Hello , {displayName} . Hope you're day is going great!</h4></Typography>}
         <Fragment>

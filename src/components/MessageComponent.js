@@ -7,6 +7,8 @@ import SendIcon from '@material-ui/icons/Send';
 import AttachmentIcon from '@material-ui/icons/Attachment';
 import ForumIcon from '@material-ui/icons/Forum';
 import './Styles.css';
+
+
 const useStyles = makeStyles((theme) => ({
     paper:{
         marginBottom:theme.spacing(1)
@@ -123,7 +125,7 @@ const FriendProfile=({personSelected})=>{
               Loading... 
               </Typography>)}
               </Grid>
-              <Grid item sm={12} md={12}>
+              <Grid item sm={12} md={12}> 
               {(personSelected.lastseen!=='')?(<Typography variant="subtitle2" display="block"  color= "primary" className={classes.name}>
               Last seen {moment(personSelected.lastseen).fromNow()} on {new Intl.DateTimeFormat('en-US', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).format(personSelected.lastseen)} around {new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit'}).format(personSelected.lastseen)}
               </Typography>):(<Typography variant="subtitle2" display="block"  color= "primary" className={classes.name}>
