@@ -1,6 +1,6 @@
 import React , { useReducer , createContext, useState} from 'react';
 import clsx from 'clsx';
-import {Grid,AppBar,Toolbar,IconButton,Typography,Hidden, Box ,Drawer} from '@material-ui/core/';
+import {Grid,AppBar,Toolbar,IconButton,Typography,Hidden ,Drawer} from '@material-ui/core/';
 import MenuIcon from '@material-ui/icons/Menu';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
@@ -10,7 +10,7 @@ import { makeStyles  , useTheme} from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ProfileComponent from './ProfileComponent';
-const drawerWidth = '55vh';
+const drawerWidth = '52vh';
 const useStyles = makeStyles((theme) => ({
     root: {
         //height: '100vh',
@@ -115,9 +115,6 @@ export default function Home(){
     const [open, setOpen] = useState(false);
     const classes = useStyles();
     const theme = useTheme();
-    const handleDrawerToggle=()=>{
-     
-    }
     const handleDrawerClose=()=>{
       setOpen(false);
     }
@@ -129,7 +126,6 @@ export default function Home(){
       <CssBaseline />
       <AppContext.Provider value={{ state, dispatch }}>
       <Hidden smUp>
-      {/* <div className={classes.root}>Mobile Site is under Construction</div> */}
       <AppBar position="static" className={classes.appBar}>
         <Toolbar>
         <IconButton

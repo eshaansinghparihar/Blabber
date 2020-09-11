@@ -76,25 +76,21 @@ export default function SignIn() {
     const uid=(firebase.auth().currentUser||{}).uid
     const [displayName, setDisplayName]=useState('');
     const [displayImage, setDisplayImage]=useState('');
-    const [error, setError]=useState('');
-    const [remoteUrl,setremoteUrl]=useState('');
     function handleSignOut(){
         firebase.auth().signOut();
     }
     const handleProfilePicUpload=(e)=>{
         let localUrl=e.target.files[0]
         const uploadTask = firebase.storage().ref(`/avatar/${localUrl.name}`).put(localUrl)
-        //initiates the firebase side uploading 
+        
         uploadTask.on('state_changed', 
         (snapShot) => {
-          //takes a snap shot of the process as it is happening
-        //   setProgress(Math.round((snapShot.bytesTransferred/snapShot.totalBytes)*100));
+         
         }, (err) => {
-          //catches the errors
+          
           alert(err.message)
         }, () => {
-          // gets the functions from storage refences the image storage in firebase by the children
-          // gets the download url then sets the image from firebase as the value for the imgUrl key:
+          
           firebase.storage().ref('avatar').child(localUrl.name).getDownloadURL()
            .then(fireBaseUrl => {
             firebase.firestore().collection("users").doc(uid).update({
@@ -139,14 +135,14 @@ export default function SignIn() {
         </div>
         <div className={classes.paper}>
         <Avatar className={classes.avatar} >
-        {displayImage ? <img className={classes.media} src={displayImage} /> : <img className={classes.media} src="https://placeimg.com/240/240/any"/>}
+        {displayImage ? <img className={classes.media} src={displayImage} alt="Loading..."/> : <img className={classes.media} src="https://placeimg.com/240/240/any" alt="Loading..."/>}
         </Avatar>
         {displayName && <Typography variant="h6" ><h4>Hello , {displayName} . Hope you're day is going great!</h4></Typography>}
         <Fragment>
         <input
         type="file"
         id="raised-button-file"
-        accept="image/*, video/* , audio/*"
+        accept="image/*"
         style={{ display:"none" ,marginLeft:"auto",marginRight:"auto", }}
         onChange={e=>{  handleProfilePicUpload(e) }}
         />

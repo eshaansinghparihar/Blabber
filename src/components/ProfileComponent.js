@@ -5,7 +5,6 @@ import Paper from '@material-ui/core/Paper';
 import { Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import Fire from '../Fire';
 const useStyles = makeStyles((theme) => ({
   name: {
     margin: theme.spacing(1),
@@ -23,7 +22,6 @@ export default function ProfileComponent(){
     const uid=(firebase.auth().currentUser||{}).uid
     const [displayName, setDisplayName]=useState('');
     const [displayImage, setDisplayImage]=useState('');
-    const [error, setError]=useState('');
     
     useEffect(()=>{
         if(uid){
@@ -35,7 +33,7 @@ export default function ProfileComponent(){
           }
           })
         .catch(error=>{
-          setError(error.message)
+          alert(error.message)
         })
     }
     })

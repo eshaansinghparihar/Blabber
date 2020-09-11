@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
           justifyContent:'center',
           display: 'flex',
           flexDirection: 'row',
-          alignItems: 'center',
           marginLeft:'auto',
           marginRight:'auto',
           // minWidth:'100'
@@ -160,8 +159,6 @@ const MessageList=({personSelected, me})=>{
     if(relevantMssgs && personSelected){
         const mssgList=relevantMssgs.map(mssg=>{
             return(
-                // <div className="mssgWrapper">
-                // <Paper elevation={3} >
                 <div>
                 {mssg.senderID===me.uid?(
                     <div className="right mssgWrapper">
@@ -169,7 +166,7 @@ const MessageList=({personSelected, me})=>{
                     <Grid item component={Paper} className={classes.right} >
                     <Typography variant="caption" display="block" className={classes.mssg}>{mssg.senderName}</Typography>
                     <br/>
-                    {mssg.mediaMssg && <img className={classes.media} src={mssg.mediaMssg} width={250} height={250} />}
+                    {mssg.mediaMssg && <img className={classes.media} src={mssg.mediaMssg} width={250} height={250} alt="Loading..."/>}
                     <br/>
                     <Typography variant="subtitle1" display="inline" noWrap={false} className={classes.mssg}>{mssg.message}</Typography>
                     <br/>
@@ -185,7 +182,7 @@ const MessageList=({personSelected, me})=>{
                     <Grid item component={Paper} className={classes.left}  >
                     <Typography variant="caption" display="block" className={classes.mssg}>{mssg.senderName}</Typography>
                     <br/>
-                    {mssg.mediaMssg && <img className={classes.media} src={mssg.mediaMssg} width={250} height={250} />}
+                    {mssg.mediaMssg && <img className={classes.media} src={mssg.mediaMssg} width={250} height={250} alt="Loading..."/>}
                     <br/>
                     <Typography variant="subtitle1" display="inline" noWrap={false} className={classes.mssg}>{mssg.message}</Typography>
                     <br/>
@@ -238,72 +235,25 @@ function LinearProgressWithLabel(props) {
 const MessageBar=({personSelected,me})=>{
     const classes = useStyles();
     const [inputMessage,setInputMessage]=useState('');
-    const uid=(firebase.auth().currentUser||{}).uid;
     const [remoteUrl,setremoteUrl]=useState('');
     const [progress,setProgress]=useState(0);
 
-    // const handleAttatchmentUpload=async ()=>{
-    //     let remoteUri='';
-    //     console.log('handleAttatchment fired');
-        // remoteUri= await uploadImage(localUrl, `media/${uid}/${Date.now()}`);
-     
-        // if(remoteUri!=='')
-        // {
-        //     setremoteUrl(remoteUri);
-        //     remoteUri='';
-        // }
-        //}
     const handleAttatchmentUpload=(e)=>{
             let localUrl=e.target.files[0]
             const uploadTask = firebase.storage().ref(`/media/${localUrl.name}`).put(localUrl)
-            //initiates the firebase side uploading 
             uploadTask.on('state_changed', 
             (snapShot) => {
-              //takes a snap shot of the process as it is happening
               setProgress(Math.round((snapShot.bytesTransferred/snapShot.totalBytes)*100));
             }, (err) => {
-              //catches the errors
               console.log(err)
             }, () => {
-              // gets the functions from storage refences the image storage in firebase by the children
-              // gets the download url then sets the image from firebase as the value for the imgUrl key:
               firebase.storage().ref('media').child(localUrl.name).getDownloadURL()
                .then(fireBaseUrl => {
                  setremoteUrl(fireBaseUrl);
                })
         })
     }  
-    // const uploadImage = async (uri, filename)=>{
-            // return new Promise(async (res, rej) => {
-            // const response = await fetch(uri);
-            // const file = await response.blob()
-            // console.log('Blob :');
-            // console.log(file);
-        //     let upload = firebase
-        //         .storage()
-        //         .ref(filename)
-        //         .put(uri);
-
-        //     upload.on(
-        //         "state_changed",
-        //         snapshot => {},
-        //         err => {
-        //             rej(err);
-        //         },
-        //         async () => {
-        //             const url = await upload.snapshot.ref.getDownloadURL();
-        //             console.log('Upload Succesful:'+url);
-        //             res(url);
-        //         }
-        //     );
-        // })
-        // .catch((error) => {
-        //     alert(error.message);
-        // });
-
-
     const handleSubmit= (e)=>{
-        // e.preventDefault();
 
         if(remoteUrl!=='')
         {
@@ -375,9 +325,7 @@ const MessageBar=({personSelected,me})=>{
         id="raised-button-file"
         accept="image/*, video/* , audio/*"
         style={{ display:"none" ,marginLeft:"auto",marginRight:"auto", }}
-        onChange={e=>{  //setlocalUrl(e.target.files[0]);
-                        handleAttatchmentUpload(e)
-        }}
+        onChange={e=>{ handleAttatchmentUpload(e)}}
         />
         <label htmlFor="raised-button-file">
         <IconButton
@@ -430,7 +378,7 @@ export default function Message({personSelected }){
             <div className={classes.container}>
             <Container component="main">
             <CssBaseline />
-            <Paper item alignContent="center" spacing={2} elevation={8}>
+            <Paper item  spacing={2} elevation={8}>
             <div  className={classes.nodata}>
             <CardContent>
             <Avatar className={classes.avatarmssg}>

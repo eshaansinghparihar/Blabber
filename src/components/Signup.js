@@ -57,8 +57,6 @@ class Signup extends Component{
     }
     this.handleSubmit=this.handleSubmit.bind(this);
   }
-  // const [displayName, setDisplayName] = useState('');
-  // const [password, setPassword] = useState('');
   handleSubmit=(e)=>{
     e.preventDefault();
     console.log(this.state);

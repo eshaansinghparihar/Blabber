@@ -30,7 +30,6 @@ nodata:{
     justifyContent:'center',
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
     marginLeft:'auto',
     marginRight:'auto',
     // minWidth:'100'
@@ -70,7 +69,6 @@ nochat: {
 function SearchwithFriendList({searchQuery}){
     const classes = useStyles();
     const {state, dispatch} = useContext(AppContext);
-    // var peopleRegistered=[];
     const [peopleRegistered, setPeopleRegistered]=useState([]);
     const uid=(firebase.auth().currentUser||{}).uid;
     const [error, setError]=useState('');
@@ -154,7 +152,7 @@ function SearchwithFriendList({searchQuery}){
             <Avatar className={classes.avatarmssg}>
                 <MoodBadIcon />
             </Avatar>
-            <Typography component="body1" display="block" className={classes.nochat}>
+            <Typography component="body2" display="block" className={classes.nochat}>
         There is no chat to show! Either the data is being downloaded or no user is registered. 
         </Typography>
         </CardContent>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
 import { Switch, Route, Redirect ,BrowserRouter} from 'react-router-dom';
 import * as firebase from 'firebase';
 import firebaseConfig from './config';
