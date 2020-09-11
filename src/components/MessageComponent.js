@@ -1,12 +1,11 @@
 import React , {useState, useEffect , Fragment} from 'react';
 import * as firebase from 'firebase';
-import { Typography, Grid,Paper ,Avatar, TextField, Button,IconButton ,LinearProgress,Box} from '@material-ui/core';
+import { Typography, Grid,Paper ,Avatar, TextField, Container, CssBaseline, CardContent,IconButton ,LinearProgress,Box} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import moment from "moment";
 import SendIcon from '@material-ui/icons/Send';
-import CardMedia from '@material-ui/core/CardMedia';
 import AttachmentIcon from '@material-ui/icons/Attachment';
-import storage from 'firebase/storage';
+import ForumIcon from '@material-ui/icons/Forum';
 import './Styles.css';
 const useStyles = makeStyles((theme) => ({
     paper:{
@@ -23,6 +22,35 @@ const useStyles = makeStyles((theme) => ({
         padding: '0 10px',
         borderRadius: 20,
         // background: 'linear-gradient(45deg, #fff 60%, #ffe 90%)',
+    },
+    nodata:{
+        //   borderBottom:'10px solid #FFD700',
+          margin:theme.spacing(2),
+          alignItems:'center',
+          width:'100%',
+          justifyContent:'center',
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginLeft:'auto',
+          marginRight:'auto',
+          // minWidth:'100'
+      },
+    avatarmssg: {
+    marginTop: theme.spacing(3),
+    background: 'linear-gradient(45deg, #b92b27 30%, #1565C0 90%)',
+    marginLeft:'auto',
+    marginRight:'auto',
+    marginBottom: theme.spacing(3),
+    // alignItems:'center',
+    // justifyItems:'center'
+    },
+    nochat: {
+        marginLeft:'auto',
+        marginRight:'auto',
+        height:'40vh',
+        marginBottom:theme.spacing(8),
+        marginTop:theme.spacing(8)
     },
     name: {
     float:'left',
@@ -373,7 +401,7 @@ const MessageBar=({personSelected,me})=>{
     }
 }
 export default function Message({personSelected }){
-    // console.log(props.personSelected.displayName)
+    const classes = useStyles();
     const uid=(firebase.auth().currentUser||{}).uid;
     const [me, setMe]=useState({});
     useEffect(()=>{
@@ -399,7 +427,23 @@ export default function Message({personSelected }){
     else
     {
         return(
-            <div>Sometimes it only takes a " Hi! " to initiate a connection to people </div>
+            <div className={classes.container}>
+            <Container component="main">
+            <CssBaseline />
+            <Paper item alignContent="center" spacing={2} elevation={8}>
+            <div  className={classes.nodata}>
+            <CardContent>
+            <Avatar className={classes.avatarmssg}>
+                <ForumIcon />
+            </Avatar>
+            <Typography component="h3" variant="subtitle1">Sometimes it only take a "Hi !" to initiate a conversation.</Typography>
+            <Typography component="h3" variant="subtitle1">Did you know? : Blabber is an installable Web App , Click on "Add to Home Screen" to install the app on your device.</Typography>
+            </CardContent>
+            </div>
+            </Paper>
+            </Container>
+            </div>
+
         )
     }
 

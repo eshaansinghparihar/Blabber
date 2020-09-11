@@ -40,9 +40,9 @@ const useStyles = makeStyles((theme) => ({
         marginLeft:theme.spacing(1),
         marginRight:theme.spacing(1),
         marginBottom:theme.spacing(1),
-        fontSize:'10px',
-        width:'50vh',
-        height:'45vh'
+        fontSize:'30px',
+        width:'30vh',
+        height:'30vh'
     },
     submitUpload:{
         background: 'linear-gradient(45deg, #ffdde1 30%, #C9D6FF 90%)',
@@ -91,7 +91,7 @@ export default function SignIn() {
         //   setProgress(Math.round((snapShot.bytesTransferred/snapShot.totalBytes)*100));
         }, (err) => {
           //catches the errors
-          console.log(err)
+          alert(err.message)
         }, () => {
           // gets the functions from storage refences the image storage in firebase by the children
           // gets the download url then sets the image from firebase as the value for the imgUrl key:
@@ -139,7 +139,7 @@ export default function SignIn() {
         </div>
         <div className={classes.paper}>
         <Avatar className={classes.avatar} >
-        {displayImage ? <img className={classes.media} src={displayImage} /> : <img className={classes.media} src="https://placeimg.com/360/360/any"/>}
+        {displayImage ? <img className={classes.media} src={displayImage} /> : <img className={classes.media} src="https://placeimg.com/240/240/any"/>}
         </Avatar>
         {displayName && <Typography variant="h6" ><h4>Hello , {displayName} . Hope you're day is going great!</h4></Typography>}
         <Fragment>

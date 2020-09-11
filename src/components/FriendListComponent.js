@@ -2,9 +2,10 @@ import React , {useState, useEffect,useContext} from 'react';
 import * as firebase from 'firebase';
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
-import { Typography, Grid,Button ,TextField,ListItem,Divider} from '@material-ui/core';
+import { Typography, Grid,Button ,TextField,ListItem,Divider, CardContent} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import CancelIcon from '@material-ui/icons/Cancel';
+import MoodBadIcon from '@material-ui/icons/MoodBad';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppContext } from './HomeComponent';
 import './Styles.css';
@@ -20,6 +21,28 @@ const useStyles = makeStyles((theme) => ({
     marginLeft:'auto',
     marginRight:'auto'
     // background: 'linear-gradient(45deg, #fff 60%, #ffe 90%)',
+},
+nodata:{
+  //   borderBottom:'10px solid #FFD700',
+    margin:theme.spacing(2),
+    alignItems:'center',
+    width:'100%',
+    justifyContent:'center',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft:'auto',
+    marginRight:'auto',
+    // minWidth:'100'
+},
+avatarmssg: {
+marginTop: theme.spacing(3),
+background: 'linear-gradient(45deg, #b92b27 30%, #1565C0 90%)',
+marginLeft:'auto',
+marginRight:'auto',
+marginBottom: theme.spacing(3),
+// alignItems:'center',
+// justifyItems:'center'
 },
 submitSend:{
   borderRadius: 5,
@@ -127,10 +150,14 @@ function SearchwithFriendList({searchQuery}){
     return(
         <Paper elevation={3} >
         <Grid component="main" container>
-        <Typography component="body1" display="block" className={classes.nochat}>
+        <CardContent>
+            <Avatar className={classes.avatarmssg}>
+                <MoodBadIcon />
+            </Avatar>
+            <Typography component="body1" display="block" className={classes.nochat}>
         There is no chat to show! Either the data is being downloaded or no user is registered. 
-        {error? error: ''} 
         </Typography>
+        </CardContent>
         </Grid>
         </Paper>
     );
