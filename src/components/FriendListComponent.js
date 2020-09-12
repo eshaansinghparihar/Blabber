@@ -93,7 +93,7 @@ function SearchwithFriendList({searchQuery}){
         if(searchelem.uid!==uid)
         return(
             <Paper container="true" onClick={()=>{
-              dispatch({ type: 'CHANGE_PERSON', data: searchelem});
+              dispatch({ type: 'CHANGE_PERSON', data: {displayName:searchelem.displayName, displayImage:searchelem.displayImage, personUid:searchelem.uid, personLastseen:searchelem.lastseen}});
               firebase.firestore().collection("users").doc(uid).update({
                 lastseen: Date.now()
               });

@@ -111,6 +111,7 @@ function reducer(state, action) {
 
 export default function Home(){
     const [state, dispatch] = useReducer(reducer, initialState);
+    // const {personSelected}=state;
     const {personSelected}=state;
     const [open, setOpen] = useState(false);
     const classes = useStyles();

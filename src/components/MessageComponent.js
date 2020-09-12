@@ -126,8 +126,8 @@ const FriendProfile=({personSelected})=>{
               </Typography>)}
               </Grid>
               <Grid item sm={12} md={12}> 
-              {(personSelected.lastseen!=='')?(<Typography variant="subtitle2" display="block"  color= "primary" className={classes.name}>
-              Last seen {moment(personSelected.lastseen).fromNow()} on {new Intl.DateTimeFormat('en-US', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).format(personSelected.lastseen)} around {new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit'}).format(personSelected.lastseen)}
+              {(personSelected.personLastseen!=='')?(<Typography variant="subtitle2" display="block"  color= "primary" className={classes.name}>
+              Last seen {moment(personSelected.personLastseen).fromNow()} on {new Intl.DateTimeFormat('en-US', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).format(personSelected.personLastseen)} around {new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit'}).format(personSelected.lastseen)}
               </Typography>):(<Typography variant="subtitle2" display="block"  color= "primary" className={classes.name}>
               Loading... 
               </Typography>)}
@@ -145,7 +145,7 @@ const FriendProfile=({personSelected})=>{
 const MessageList=({personSelected, me})=>{
     const classes = useStyles();
     if(me.messages && me.uid ){
-    var relevantMssgs= me.messages.filter(mssg=>((mssg.senderID===me.uid && mssg.receiverID===personSelected.uid)||(mssg.senderID===personSelected.uid && mssg.receiverID===me.uid)))
+    var relevantMssgs= me.messages.filter(mssg=>((mssg.senderID===me.uid && mssg.receiverID===personSelected.personUid)||(mssg.senderID===personSelected.personUid && mssg.receiverID===me.uid)))
     if(relevantMssgs.length===0)
     {
         relevantMssgs=[
@@ -196,7 +196,7 @@ const MessageList=({personSelected, me})=>{
                 </div>    
             )
         }
-        )
+        ).reverse()
         return(
             <div className="mssgScroll">
             {mssgList}
@@ -207,6 +207,7 @@ const MessageList=({personSelected, me})=>{
     {
         return(
             <div className="mssgScroll">
+            <div  className="left mssgWrapper" >
             <Paper container xs={12} sm={12} md={12} elevation={3} >
             <Grid  component={Paper} className={classes.left} >
             <Typography variant="caption" display="block" className={classes.mssg}>Blabber(Admin)</Typography>
@@ -217,6 +218,7 @@ const MessageList=({personSelected, me})=>{
             <br/>
             </Grid>    
             </Paper>
+            </div>
             </div>
         )
     }
