@@ -236,7 +236,7 @@ function LinearProgressWithLabel(props) {
       </Box>
     );
   }
-const MessageBar=({personSelected,me})=>{
+const MessageBar=({personSelected, me})=>{
     const classes = useStyles();
     const [inputMessage,setInputMessage]=useState('');
     const [remoteUrl,setremoteUrl]=useState('');
@@ -267,11 +267,11 @@ const MessageBar=({personSelected,me})=>{
             .catch(error=> alert(error.message));
     
             firebase.firestore().collection("users").doc(me.uid).update({
-            messages:firebase.firestore.FieldValue.arrayUnion({message:inputMessage,mediaMssg:remoteUrl, senderName:me.displayName , receiverName:personSelected.displayName , senderID:me.uid, receiverID:personSelected.uid, timestamp: Date.now()}),
+            messages:firebase.firestore.FieldValue.arrayUnion({message:inputMessage,mediaMssg:remoteUrl, senderName:me.displayName , receiverName:personSelected.displayName , senderID:me.uid, receiverID:personSelected.personUid, timestamp: Date.now()}),
             }).catch(error=>alert(error.message));
     
-            firebase.firestore().collection("users").doc(personSelected.uid).update({
-            messages:firebase.firestore.FieldValue.arrayUnion({message:inputMessage,mediaMssg:remoteUrl, senderName:me.displayName , receiverName:personSelected.displayName , senderID:me.uid, receiverID:personSelected.uid, timestamp: Date.now()}),
+            firebase.firestore().collection("users").doc(personSelected.personUid).update({
+            messages:firebase.firestore.FieldValue.arrayUnion({message:inputMessage,mediaMssg:remoteUrl, senderName:me.displayName , receiverName:personSelected.displayName , senderID:me.uid, receiverID:personSelected.personUid, timestamp: Date.now()}),
             }).catch(error=>alert(error.message));
             setInputMessage('');
             setremoteUrl('');
@@ -285,11 +285,11 @@ const MessageBar=({personSelected,me})=>{
             .catch(error=> alert(error.message));
     
             firebase.firestore().collection("users").doc(me.uid).update({
-            messages:firebase.firestore.FieldValue.arrayUnion({message:inputMessage,mediaMssg:'', senderName:me.displayName , receiverName:personSelected.displayName , senderID:me.uid, receiverID:personSelected.uid, timestamp: Date.now()}),
+            messages:firebase.firestore.FieldValue.arrayUnion({message:inputMessage,mediaMssg:'', senderName:me.displayName , receiverName:personSelected.displayName , senderID:me.uid, receiverID:personSelected.personUid, timestamp: Date.now()}),
             }).catch(error=>alert(error.message));
     
-            firebase.firestore().collection("users").doc(personSelected.uid).update({
-            messages:firebase.firestore.FieldValue.arrayUnion({message:inputMessage,mediaMssg:'', senderName:me.displayName , receiverName:personSelected.displayName , senderID:me.uid, receiverID:personSelected.uid, timestamp: Date.now()}),
+            firebase.firestore().collection("users").doc(personSelected.personUid).update({
+            messages:firebase.firestore.FieldValue.arrayUnion({message:inputMessage,mediaMssg:'', senderName:me.displayName , receiverName:personSelected.displayName , senderID:me.uid, receiverID:personSelected.personUid, timestamp: Date.now()}),
             }).catch(error=>alert(error.message));
     
             setInputMessage('');

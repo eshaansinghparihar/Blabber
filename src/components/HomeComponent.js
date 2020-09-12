@@ -10,7 +10,8 @@ import { makeStyles  , useTheme} from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ProfileComponent from './ProfileComponent';
-const drawerWidth = '52vh';
+import NotificationComponent from './NotificationComponent';
+const drawerWidth = '48vh';
 const useStyles = makeStyles((theme) => ({
     root: {
         //height: '100vh',
@@ -158,6 +159,7 @@ export default function Home(){
           </IconButton>
         </div>
         <ProfileComponent/>
+        <NotificationComponent/>
         <FriendList/>
       </Drawer>
       <main className={clsx(classes.content, {
@@ -172,6 +174,7 @@ export default function Home(){
       <Hidden xsDown>
       <Grid item xs={12} sm={4} md={3} className={classes.imageFriendList} component={Paper} elevation={8} square>
       <ProfileComponent/>
+      <NotificationComponent/>
       <FriendList/>
       </Grid>
       <Grid item xs={12} sm={8} md={9} className={classes.imageMessage} component={Paper} elevation={8} square>

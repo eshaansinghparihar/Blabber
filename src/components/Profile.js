@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignIn() {
+export default function Profile() {
     const classes = useStyles();
     const uid=(firebase.auth().currentUser||{}).uid
     const [displayName, setDisplayName]=useState('');

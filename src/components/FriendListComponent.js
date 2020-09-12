@@ -12,7 +12,7 @@ import './Styles.css';
 
 const useStyles = makeStyles((theme) => ({
   name: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(1)
   },
   messagebararea:{
     // background: '#fff',

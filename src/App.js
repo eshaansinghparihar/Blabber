@@ -6,6 +6,7 @@ import Signin from './components/Signin';
 import Signup from './components/Signup';
 import Home from './components/HomeComponent';
 import Profile from './components/Profile';
+import Notification from './components/Notification';
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
@@ -23,6 +24,9 @@ function App() {
      <Switch>
         <Route exact path="/profile" >
           <Profile/>
+        </Route>
+        <Route path='/notification' >
+          <Notification/>
         </Route>
         <Route path='/' >
           <Home/>
